@@ -1,0 +1,10 @@
+music_path: "/mnt/playable_music"
+default_query: 'alphataurus'
+music_db_path: '/beet/beets_data/musiclibrary.db'
+bitrate: 4096
+static_playlists_path: '/var/music_man/static_playlists'
+ice:
+  host: localhost
+  port: 8000
+  password: secret_password
+  user: 'source'

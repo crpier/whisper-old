@@ -1,0 +1,6 @@
+/.idea
+/venv/
+/testing_data/
+config.yml
+__pycache__
+
