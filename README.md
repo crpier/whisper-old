@@ -2,6 +2,7 @@
 
 ### Requirements
 Requires Python3.7
+
 Requires beets library because that's how it queries for music. 
 
 ### Installation
