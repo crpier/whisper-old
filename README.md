@@ -2,6 +2,7 @@
 
 ### Requirements
 Requires Python3.7
+Requires beets library because that's how it queries for music. 
 
 ### Installation
 1. Clone the repository
@@ -24,7 +25,7 @@ bitrate: 4096
 # this is not currently implemented, but you still need to provide a valid path lol
 static_playlists_path: '/var/music_man/static_playlists'
 # required to connect to icecast server
-    ice:
+ice:
     host: localhost
     port: 8000
     password: secret_password
