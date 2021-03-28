@@ -2,3 +2,5 @@
 /venv/
 /testing_data/
 config.yml
+__pycache__
+tags

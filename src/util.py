@@ -5,14 +5,6 @@ from pathlib import Path
 from beets.library import Item
 
 
-# TODO use song['alt.radiomusic'] instead of this function
-def convert_library_path(path: bytes):
-    path = str(path, 'utf-8')
-    new_path = path.replace('/good_music/', '/converted_music/')
-    new_extension = re.sub(r"(\.flac|\.ape)$", '.mp3', new_path)
-    return new_extension
-
-
 def update_status(d, u):
     for k, v in u.items():
         if isinstance(v, collections.abc.Mapping):
