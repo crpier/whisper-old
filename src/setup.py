@@ -23,9 +23,10 @@ def get_logger():
 
 
 @lru_cache(maxsize=1)
-def get_station_container(config: Settings, logger):
+def get_station_container():
     config = get_config()
-    logger = get_logger(config.log_file, config.log_level)
+    logger = get_logger()
+
     return StationContainer(config.stream_bitrate, logger, config.ice_host,
                             config.ice_password, config.ice_user,
                             config.ice_port, config.ice_format)

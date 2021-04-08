@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, WebSocket
 
 from services.station import StreamMetadata, StationContainer
 from setup import get_library, get_station_container, get_logger
+import logging
 import websockets
 
 station_router = APIRouter()
@@ -13,9 +14,8 @@ station_router = APIRouter()
 @station_router.websocket('/status')
 async def get_station_status(
     ws: WebSocket,
-    station_container: StationContainer = Depends(get_station_container)):
-    # TODO use Depends for getting logger
-    logger = get_logger()
+    station_container: StationContainer = Depends(get_station_container),
+    logger = Depends(get_logger)):
     try:
         container_status = station_container.get_container_status()
         await ws.accept()
@@ -46,12 +46,13 @@ def create_station(
     genre: str = "kek",
     description: str = "stuff",
     station_container: StationContainer = Depends(get_station_container)):
+    # logger: logging.Logger = Depends(get_logger)):
     # TODO how to create dataclass with optional parameters that the parser likes
     metadata = StreamMetadata(name, mount, genre, description)
     new_station = station_container.create_station(metadata)
     library = get_library()
     items = library.items(query)
-    logger.debug(f"populating queue for station {name}")
+    # logger.debug("populating queue for station {}".format(name))
     for item in items:
         new_station.radio_queue.add_to_queue(item)
     new_station.start_radio()

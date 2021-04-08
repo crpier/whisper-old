@@ -82,7 +82,7 @@ class Station:
         self.shout_connection.port = ice_port
         self.shout_connection.user = ice_user
         self.shout_connection.password = ice_password
-        self.shout_connection.format = ice_format
+        self.shout_connection.format = "mp3"
         self.bitrate = bitrate
 
         # Configure shout connection based on specific parameters
