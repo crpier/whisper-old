@@ -11,8 +11,10 @@ from main import app
 
 client = TestClient(app)
 
+
 @pytest.fixture
 def setup_app():
+    pass
 
 
 @pytest.mark.functional

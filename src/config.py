@@ -1,17 +1,19 @@
 from dataclasses import dataclass
 from enum import Enum
 from pathlib import Path
+
 # from typing import ClassVar, Type, Optional, Any, Mapping
 import logging
+
 # from marshmallow import Schema, fields, ValidationError
 # from marshmallow_dataclass import dataclass as mdataclass
 
 
 class Format(Enum):
-    mp3 = 'mp3'
-    ape = 'ape'
-    flac = 'flac'
-    ogg = 'ogg'
+    mp3 = "mp3"
+    ape = "ape"
+    flac = "flac"
+    ogg = "ogg"
 
 
 # Custom fields for validation
@@ -41,24 +43,24 @@ class Format(Enum):
 class IceConfig:
     password: str
     port: int = 8000
-    host: str = 'localhost'
-    user: str = 'source'
+    host: str = "localhost"
+    user: str = "source"
     format: Format = Format.mp3
 
 
 @dataclass(frozen=True)
 class LoggingConfig:
-    filename: str = '/var/log/music_man/main.log'
+    filename: str = "/var/log/music_man/main.log"
     level: int = logging.DEBUG
 
 
 @dataclass(frozen=True)
 class DefaultsConfig:
-    default_query = 'metallica'
-    default_station_name = 'lol'
-    default_station_mount = '/angular'
-    default_station_genre = 'metal'
-    default_station_description = 'This is good music'
+    default_query = "metallica"
+    default_station_name = "lol"
+    default_station_mount = "/angular"
+    default_station_genre = "metal"
+    default_station_description = "This is good music"
 
 
 # @mdataclass(frozen=True)
@@ -109,15 +111,15 @@ class Settings(BaseSettings):
     log_file: Path
     log_level: int = logging.INFO
     stream_bitrate: int = 4096
-    default_query: str = 'metallica'
-    default_station_name: str = 'lol'
-    default_station_mount: str = '/angular'
-    default_station_genre: str = 'metal'
-    default_station_description: str = 'This is good music'
+    default_query: str = "metallica"
+    default_station_name: str = "lol"
+    default_station_mount: str = "/angular"
+    default_station_genre: str = "metal"
+    default_station_description: str = "This is good music"
     ice_password: str
     ice_port: int = 8000
-    ice_host: str = 'localhost'
-    ice_user: str = 'source'
+    ice_host: str = "localhost"
+    ice_user: str = "source"
     ice_format: Format = Format.mp3
 
     class Config:

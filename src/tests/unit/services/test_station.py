@@ -69,12 +69,13 @@ song_paths = [
 def radio_queue():
     return RadioQueue(mocked_logger)
 
+
 @pytest.fixture
 def songs():
-    items = [Item(
-        artist=song_artists[i],
-        album=song_albums[i],
-        title=song_titles[i]) for i in range(10)]
+    items = [
+        Item(artist=song_artists[i], album=song_albums[i], title=song_titles[i])
+        for i in range(10)
+    ]
     for i, item in enumerate(items):
         item["alt.radiomusic"] = song_paths[i]
     return items
@@ -84,6 +85,7 @@ def songs():
 def test_add_to_queue(radio_queue: RadioQueue, songs: List[Item]):
     radio_queue.add_to_queue(songs[1])
     assert radio_queue.get_queue() == [songs[1]]
+
 
 @pytest.mark.unit
 def test_clear_radio_queue(radio_queue: RadioQueue, songs: List[Item]):

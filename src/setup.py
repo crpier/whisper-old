@@ -13,7 +13,7 @@ def get_logger():
     app_logger = logging.getLogger(__name__)
     handler = logging.FileHandler(config.log_file)
     stoud_handler = logging.StreamHandler(sys.stdout)
-    app_format = logging.Formatter('%(asctime)s - %(levelname)s: %(message)s')
+    app_format = logging.Formatter("%(asctime)s - %(levelname)s: %(message)s")
     handler.setFormatter(app_format)
     stoud_handler.setFormatter(app_format)
     app_logger.addHandler(handler)
@@ -27,9 +27,15 @@ def get_station_container():
     config = get_config()
     logger = get_logger()
 
-    return StationContainer(config.stream_bitrate, logger, config.ice_host,
-                            config.ice_password, config.ice_user,
-                            config.ice_port, config.ice_format)
+    return StationContainer(
+        config.stream_bitrate,
+        logger,
+        config.ice_host,
+        config.ice_password,
+        config.ice_user,
+        config.ice_port,
+        config.ice_format,
+    )
 
 
 @lru_cache(maxsize=1)

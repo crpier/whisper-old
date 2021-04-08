@@ -22,16 +22,14 @@ def main():
     logger = get_logger()
     api_router = APIRouter()
 
-    api_router.include_router(radio_queue_router, prefix='/queue')
-    api_router.include_router(station_router, prefix='/station')
+    api_router.include_router(radio_queue_router, prefix="/queue")
+    api_router.include_router(station_router, prefix="/station")
 
-    app.include_router(api_router, prefix='/api')
-    app.mount('/',
-              StaticFiles(directory='src/static', html=True),
-              name='static')
+    app.include_router(api_router, prefix="/api")
+    app.mount("/", StaticFiles(directory="src/static", html=True), name="static")
 
-    logger.debug('Starting application')
-    uvicorn.run(app, host='0.0.0.0', port=8001, log_level='info')
+    logger.debug("Starting application")
+    uvicorn.run(app, host="0.0.0.0", port=8001, log_level="info")
 
 
 if __name__ == "__main__":

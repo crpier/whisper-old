@@ -15,7 +15,7 @@ def get_songs_from_playlist(playlist_name: str):
     valid_song_paths: List[Path] = []
     invalid_song_paths: List[Path] = []
 
-    with playlist_file.open('r') as file:
+    with playlist_file.open("r") as file:
         for song_path_str in file:
             song_path = Path(song_path_str)
             if song_path.exists() and song_path.is_file():
@@ -36,8 +36,6 @@ def write_playlist(playlist_name: str, songs_paths_str: List[str]):
         else:
             invalid_song_paths.append(song_path)
     playlist_file = playlist_folder.joinpath(playlist_name)
-    with playlist_file.open('w') as file:
-        file.writelines(
-            map(lambda x: str(x) + '\n', valid_song_paths)
-        )
+    with playlist_file.open("w") as file:
+        file.writelines(map(lambda x: str(x) + "\n", valid_song_paths))
     return invalid_song_paths

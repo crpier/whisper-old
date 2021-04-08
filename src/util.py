@@ -28,7 +28,7 @@ class SerializedSong:
         self.title = song.title
         self.artist = song.artist
         self.genre = song.genre
-        self.path = Path(song['alt.radiomusic'])
+        self.path = Path(song["alt.radiomusic"])
 
 
 def serialize_song(song: Item) -> SerializedSong:

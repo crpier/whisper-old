@@ -52,16 +52,24 @@ class RadioQueue:
 
 @dataclass
 class StreamMetadata:
-    name: str = 'Unnamed'
-    mount: str = '/stream'
-    genre: str = 'De toate....nu manele'
-    description: str = 'Indescribable'
+    name: str = "Unnamed"
+    mount: str = "/stream"
+    genre: str = "De toate....nu manele"
+    description: str = "Indescribable"
 
 
 class Station:
-    def __init__(self, bitrate: int, metadata: StreamMetadata, logger: Logger,
-                 ice_host: str, ice_password: str, ice_user: str,
-                 ice_port: str, ice_format: str):
+    def __init__(
+        self,
+        bitrate: int,
+        metadata: StreamMetadata,
+        logger: Logger,
+        ice_host: str,
+        ice_password: str,
+        ice_user: str,
+        ice_port: str,
+        ice_format: str,
+    ):
         self.player_thread = Thread()
 
         # Thread events
@@ -98,7 +106,7 @@ class Station:
         self.unpause.set()
 
     def start_radio(self):
-        self.logger.debug(f'starting radio on station {self.metadata.name}')
+        self.logger.debug(f"starting radio on station {self.metadata.name}")
         self.stopped.clear()
         self.player_thread = Thread(target=self.start_playing, daemon=True)
         asyncio.new_event_loop()
@@ -127,52 +135,53 @@ class Station:
             try:
                 # TODO maybe updating the log format in class init is better?
                 self.logger.debug(
-                    f'Station {self.metadata.name} - extracting from queue')
+                    f"Station {self.metadata.name} - extracting from queue"
+                )
                 song: Item = self.radio_queue.get_song(timeout=0.5)
                 self._current_song = song
                 new_status = {
                     self.metadata.name: {
-                        'now_playing':
-                        f'{song.title} - {song.album} - {song.artist}'
+                        "now_playing": f"{song.title} - {song.album} - {song.artist}"
                     }
                 }
-                await broadcast.publish('song_change', json.dumps(new_status))
-                self.logger.debug(
-                    f'got from queue: {song.title} - {song.album}')
+                await broadcast.publish("song_change", json.dumps(new_status))
+                self.logger.debug(f"got from queue: {song.title} - {song.album}")
             except Empty:
                 if not self.stopped.is_set():
                     # no timeout, stay here until we get a new song
                     song: Item = self.radio_queue.get_song()
                 else:
-                    self.logger.debug('Stream has been stopped. Bye bye')
+                    self.logger.debug("Stream has been stopped. Bye bye")
                     self.shout_connection.close()
                     break
-            song_path: str = song['alt.radiomusic']
-            with open(song_path, 'rb') as music_file:
-                self.logger.debug(f'opened: {str(song_path)}')
-                self.shout_connection.set_metadata({
-                    'song': song.title,
-                    'album': song.album
-                })
+            song_path: str = song["alt.radiomusic"]
+            with open(song_path, "rb") as music_file:
+                self.logger.debug(f"opened: {str(song_path)}")
+                self.shout_connection.set_metadata(
+                    {"song": song.title, "album": song.album}
+                )
                 total = 0
                 st = time.time()
 
                 nbuf = music_file.read(self.bitrate)
                 self.song_skipped.clear()
-                while self.unpause.wait() and not self.stopped.is_set(
-                ) and not self.song_skipped.is_set():
+                while (
+                    self.unpause.wait()
+                    and not self.stopped.is_set()
+                    and not self.song_skipped.is_set()
+                ):
                     buf = nbuf
                     nbuf = music_file.read(self.bitrate)
                     total = total + len(buf)
                     if len(buf) == 0:
-                        self.logger.debug(f'buffer is empty, out')
+                        self.logger.debug(f"buffer is empty, out")
                         break
                     try:
                         self.shout_connection.send(buf)
                         self.shout_connection.sync()
                     except shout.ShoutException:
                         self.logger.debug(
-                            f'Connection timeout. Reopening socket {self.shout_connection}'
+                            f"Connection timeout. Reopening socket {self.shout_connection}"
                         )
                         self.shout_connection.close()
                         self.shout_connection.open()
@@ -180,14 +189,23 @@ class Station:
                         self.shout_connection.sync()
                 et = time.time()
                 br = total * 0.008 / (et - st)
-                self.logger.debug("Sent %d bytes in %d seconds (%f kbps)" %
-                                  (total, et - st, br))
+                self.logger.debug(
+                    "Sent %d bytes in %d seconds (%f kbps)" % (total, et - st, br)
+                )
         self.shout_connection.close()
 
 
 class StationContainer:
-    def __init__(self, bitrate: int, logger, ice_host, ice_password, ice_user,
-                 ice_port, ice_format):
+    def __init__(
+        self,
+        bitrate: int,
+        logger,
+        ice_host,
+        ice_password,
+        ice_user,
+        ice_port,
+        ice_format,
+    ):
         self.__container: Dict[str, Station] = {}
         self.bitrate = bitrate
         self.logger = logger
@@ -203,12 +221,11 @@ class StationContainer:
         station: Station
         for station in stations:
             station_status = {
-                'mount': station.metadata.mount,
-                'description': station.metadata.description,
-                'genre': station.metadata.genre,
-                'now_playing':
-                f'{station._current_song.title} - {station._current_song.album} - {station._current_song.artist}',
-                'name': station.metadata.name
+                "mount": station.metadata.mount,
+                "description": station.metadata.description,
+                "genre": station.metadata.genre,
+                "now_playing": f"{station._current_song.title} - {station._current_song.album} - {station._current_song.artist}",
+                "name": station.metadata.name,
             }
             container_status.update({station.metadata.name: station_status})
         return container_status
@@ -221,9 +238,16 @@ class StationContainer:
         if self.__container.get(metadata.name) is not None:
             # TODO this doesn't do what I wanted, I thought it would raise the exception to the fastapi exceptionhandler and show it there
             raise StationExistsException()
-        new_station = Station(self.bitrate, metadata, self.logger,
-                              self.ice_host, self.ice_password, self.ice_user,
-                              self.ice_port, self.ice_format)
+        new_station = Station(
+            self.bitrate,
+            metadata,
+            self.logger,
+            self.ice_host,
+            self.ice_password,
+            self.ice_user,
+            self.ice_port,
+            self.ice_format,
+        )
         self.__container[metadata.name] = new_station
         return new_station
 
@@ -238,7 +262,7 @@ class StationContainer:
         station_to_remove.player_thread.join()
         broadcast = Broadcast("redis://127.0.0.1:6379")
         await broadcast.connect()
-        await broadcast.publish('song_change', 'aaa')
+        await broadcast.publish("song_change", "aaa")
         del self.__container[name]
 
 
