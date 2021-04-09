@@ -3,10 +3,7 @@
 pipeline {
 
     agent {
-        docker {
-            image 'python'
-            args '-u root'
-        }
+        docker { image 'python' }
     }
 
     stages {
