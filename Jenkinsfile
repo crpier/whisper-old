@@ -1,7 +1,13 @@
 #!/usr/bin/env groovy
 
 pipeline {
-    agent { docker { image 'python:3.7' } }
+    agent {
+        docker {
+            image 'maven:3-alpine'
+            label 'my-defined-label'
+            args  '-v /tmp:/tmp'
+        }
+    }
     stages {
         stage('Build') {
             steps {
