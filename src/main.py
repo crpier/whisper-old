@@ -19,8 +19,6 @@ def main():
         allow_headers=["*"],
     )
 
-
-
     logger = get_logger()
     api_router = APIRouter()
 
