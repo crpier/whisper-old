@@ -24,6 +24,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      - name: check black
+      - uses: pipeline-components/black@latest
+      - with:
+          directory: .
+          options: --fast --check
+      - name: make changes
+      - if: failure()
       - uses: pipeline-components/black@latest
       - with:
           directory: .
