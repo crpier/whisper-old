@@ -37,8 +37,6 @@ async def get_station_status(
 
 # TODO make autostart depend on env or config
 # @station_router.on_event('startup')
-# TODO use Depends for getting config
-# TODO set default values
 @station_router.post("/")
 def create_station(
     query: str = "aa",
@@ -48,8 +46,6 @@ def create_station(
     description: str = "stuff",
     station_container: StationContainer = Depends(get_station_container),
 ):
-    # logger: logging.Logger = Depends(get_logger)):
-    # TODO how to create dataclass with optional parameters that the parser likes
     metadata = StreamMetadata(name, mount, genre, description)
     new_station = station_container.create_station(metadata)
     library = get_library()
