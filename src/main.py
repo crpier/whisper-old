@@ -9,16 +9,17 @@ from setup import get_logger
 
 app = FastAPI()
 
+
 def main():
     """And app that whispers music to an IceCast server"""
     # TODO real cors
     app.add_middleware(
-            CORSMiddleware,
-            allow_origins=["*"],
-            allow_credentials=True,
-            allow_methods=["*"],
-            allow_headers=["*"],
-            )
+        CORSMiddleware,
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
     logger = get_logger()
     api_router = APIRouter()
