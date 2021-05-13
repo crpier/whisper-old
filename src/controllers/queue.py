@@ -30,7 +30,7 @@ def get_radio_queue(
     }
 
 
-# TODO websocket should be used for real-time status update, but maybe also keep this endpoint for backward compatibility
+# TODO websocket should be used for cheap instant whatever
 @radio_queue_router.get("/current")
 def get_current_song(
     name: str, station_container: StationContainer = Depends(get_station_container)

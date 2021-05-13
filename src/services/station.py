@@ -1,5 +1,6 @@
 import asyncio
 import json
+from os import set_blocking
 import time
 from dataclasses import dataclass
 from logging import Logger
@@ -68,7 +69,6 @@ class Station:
         ice_password: str,
         ice_user: str,
         ice_port: str,
-        ice_format: str,
     ):
         self.player_thread = Thread()
 
@@ -92,6 +92,7 @@ class Station:
         self.shout_connection.password = ice_password
         self.shout_connection.format = "mp3"
         self.bitrate = bitrate
+
 
         # Configure shout connection based on specific parameters
         self.shout_connection.name = metadata.name
@@ -204,7 +205,6 @@ class StationContainer:
         ice_password,
         ice_user,
         ice_port,
-        ice_format,
     ):
         self.__container: Dict[str, Station] = {}
         self.bitrate = bitrate
@@ -213,7 +213,6 @@ class StationContainer:
         self.ice_password = ice_password
         self.ice_user = ice_user
         self.ice_port = ice_port
-        self.ice_format = ice_format
 
     def get_container_status(self):
         container_status = {}
@@ -246,7 +245,6 @@ class StationContainer:
             self.ice_password,
             self.ice_user,
             self.ice_port,
-            self.ice_format,
         )
         self.__container[metadata.name] = new_station
         return new_station
