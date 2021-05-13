@@ -93,7 +93,6 @@ class Station:
         self.shout_connection.format = "mp3"
         self.bitrate = bitrate
 
-
         # Configure shout connection based on specific parameters
         self.shout_connection.name = metadata.name
         self.shout_connection.mount = metadata.mount
