@@ -4,7 +4,7 @@ pipeline {
         stage('Code analysis') {
             agent { 
                 node {
-                    label code 
+                    label slave
                 }
             }
             stages {
