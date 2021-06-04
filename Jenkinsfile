@@ -1,33 +1,33 @@
 pipeline {
-agent any
-    stages {
+   agent any
+   stages {
         stage('Code analysis') {
             agent { 
                 dockerfile {
                     filename 'code.Dockerfile'
+
+            }
+            stages {
+                stage('Code analysis: checkout') {
+                   steps {
+                       checkout scm
+                   }
                 }
-                stages {
-                    stage('Code analysis: checkout') {
-                        steps {
-                            checkout scm
-                        }
-                    }
-                    stage('Code analysis: pylint') {
-                        steps {
-                            sh "pylint"
-                        }
+                stage('Code analysis: pylint') {
+                    steps {
+                        sh "pylint"
                     }
                 }
             }
-            stage('Build') {
-                steps {
-                    echo 'Building...'
-                }
+        }
+        stage('Build') {
+            steps {
+                echo 'Building...'
             }
-            stage('Test') {
-                steps {
-                    echo 'Testing...'
-                }
+        }
+        stage('Test') {
+            steps {
+                echo 'Testing...'
             }
         }
     }
