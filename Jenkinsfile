@@ -1,11 +1,6 @@
 pipeline {
    agent any
    stages {
-        stage('Build') {
-            steps {
-                echo 'Building...'
-            }
-        }
         stage('Code analysis') {
             agent { 
                 label code 
@@ -13,9 +8,15 @@ pipeline {
             stages {
                 stage('Code analysis: pylint') {
                     steps {
-                        sh "pylint --fail-under=4 src"
+                        // sh "pylint --fail-under=4 src"
+                        echo "lolaw"
                     }
                 }
+            }
+        }
+        stage('Build') {
+            steps {
+                echo 'Building...'
             }
         }
         stage('Test') {
