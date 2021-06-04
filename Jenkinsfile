@@ -1,9 +1,10 @@
 pipeline {
-   agent none
+   agent any
    stages {
         stage('Code analysis') {
             agent { 
-                label code 
+                dockerfile {
+                    filename 'code.Dockerfile'
             }
             stages {
                 stage('Code analysis: checkout') {
