@@ -3,7 +3,7 @@ pipeline {
    stages {
         stage('Code analysis') {
             agent { 
-                label code
+                label 'code'
             }
             stages {
                 stage('Code analysis: checkout') {
@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Build') {
             agent { 
-                label code
+                label 'code'
             }
             steps {
                 echo 'Building...'
@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Test') {
             agent { 
-                label code
+                label 'code'
             }
             steps {
                 echo 'Testing...'
