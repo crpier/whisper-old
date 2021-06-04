@@ -7,7 +7,9 @@ pipeline {
             }
         }
         stage('Code analysis') {
-            agent { label code }
+            agent { 
+                label code 
+            }
             stages {
                 stage('Code analysis: pylint') {
                     steps {
