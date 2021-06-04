@@ -5,7 +5,7 @@ pipeline {
             agent { 
                 dockerfile {
                     filename 'code.Dockerfile'
-
+                }
             }
             stages {
                 stage('Code analysis: checkout') {
