@@ -13,7 +13,7 @@ pipeline {
                 }
                 stage('Code analysis: pylint') {
                     steps {
-                        sh "pylint"
+                        sh "ls -la"
                     }
                 }
             }
