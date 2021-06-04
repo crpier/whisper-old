@@ -3,7 +3,9 @@ pipeline {
    stages {
         stage('Code analysis') {
             agent { 
-                label code 
+                node {
+                    label code 
+                }
             }
             stages {
                 stage('Code analysis: checkout') {
