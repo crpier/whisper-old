@@ -7,10 +7,12 @@ pipeline {
             }
         }
         stage('Code analysis') {
-            agent { label: code }
+            agent { label code }
             stages {
                 stage('Code analysis: pylint') {
-                    sh "pylint --fail-under=4 src"
+                    steps {
+                        sh "pylint --fail-under=4 src"
+                    }
                 }
             }
         }
