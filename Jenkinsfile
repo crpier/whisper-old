@@ -4,7 +4,14 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building...'
-                sh "sleep 5"
+            }
+        }
+        stage('Code analysis') {
+            agent { label: code }
+            stages {
+                stage('Code analysis: pylint') {
+                    sh "pylint --fail-under=4 src"
+                }
             }
         }
         stage('Test') {
