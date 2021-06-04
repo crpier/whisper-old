@@ -1,11 +1,9 @@
 pipeline {
-   agent any
+   agent none
    stages {
         stage('Code analysis') {
             agent { 
-                node {
-                    label slave
-                }
+                label code
             }
             stages {
                 stage('Code analysis: checkout') {
@@ -21,11 +19,17 @@ pipeline {
             }
         }
         stage('Build') {
+            agent { 
+                label code
+            }
             steps {
                 echo 'Building...'
             }
         }
         stage('Test') {
+            agent { 
+                label code
+            }
             steps {
                 echo 'Testing...'
             }
