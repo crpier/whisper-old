@@ -7,7 +7,9 @@ pipeline {
             }
             stages {
                 stage('Code analysis: checkout') {
-                    checkout scm
+                   steps {
+                       checkout scm
+                   }
                 }
                 stage('Code analysis: pylint') {
                     steps {
