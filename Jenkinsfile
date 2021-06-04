@@ -3,9 +3,7 @@ pipeline {
    stages {
         stage('Code analysis') {
             agent { 
-                dockerfile {
-                    filename 'code.Dockerfile'
-                }
+                label code 
             }
             stages {
                 stage('Code analysis: checkout') {
