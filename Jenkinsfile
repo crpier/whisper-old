@@ -6,6 +6,9 @@ pipeline {
                 label code 
             }
             stages {
+                stage('Code analysis: checkout') {
+                    checkout scm
+                }
                 stage('Code analysis: pylint') {
                     steps {
                         sh "pylint --fail-under=4 src"
