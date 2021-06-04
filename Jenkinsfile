@@ -13,7 +13,7 @@ pipeline {
                 }
                 stage('Code analysis: pylint') {
                     steps {
-                        sh "ls -la"
+                        sh "pylint --fail-under=4 src"
                     }
                 }
             }
