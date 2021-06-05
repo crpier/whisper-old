@@ -16,6 +16,7 @@ pipeline {
                         catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                             sh "pylint --fail-under=4 src"
                             sh "flake8 src"
+                            sh "pydocstyle src"
                         }
                     }
                 }
