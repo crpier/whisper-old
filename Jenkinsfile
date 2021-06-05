@@ -29,7 +29,9 @@ pipeline {
             steps {
                 script {
                     dockerImage = docker.build 'tiannaru/whisper:latest'
-                    dockerImage.push()
+                    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+                        dockerImage.push()
+                    }
                 }
             }
         }
