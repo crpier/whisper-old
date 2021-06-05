@@ -28,7 +28,7 @@ pipeline {
             }
             steps {
                 script {
-                    dockerImage = docker.build 'whisper:latest'
+                    dockerImage = docker.build 'tiannaru/whisper:latest'
                     dockerImage.push()
                 }
             }
