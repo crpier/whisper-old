@@ -29,6 +29,7 @@ pipeline {
             steps {
                 script {
                     dockerImage = docker.build 'whisper:latest'
+                    dockerImage.push()
                 }
             }
         }
