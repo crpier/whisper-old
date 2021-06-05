@@ -11,9 +11,12 @@ pipeline {
                        checkout scm
                    }
                 }
-                stage('Code analysis: pylint') {
+                stage('Code analysis: check') {
                     steps {
-                        sh "pylint --fail-under=4 src"
+                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                            sh "pylint --fail-under=4 src"
+                            sh "flake8 src"
+                        }
                     }
                 }
             }
