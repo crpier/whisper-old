@@ -37,6 +37,7 @@ pipeline {
         }
         stage('Test') {
             agent { 
+                // TODO create testing image
                 label 'code'
             }
             steps {
