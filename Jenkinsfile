@@ -5,6 +5,7 @@ def get_tag(String branch_name) {
         tag=staging
     }
     return tag
+}
 
 pipeline {
    agent none
