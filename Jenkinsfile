@@ -25,7 +25,7 @@ pipeline {
         stage('Build') {
             agent any
             steps {
-                script {
+                node{
                     dockerImage = docker.build 'whisper:latest'
                 }
             }
