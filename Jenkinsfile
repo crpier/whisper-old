@@ -26,7 +26,7 @@ pipeline {
             agent any
             steps {
                 script {
-                    dockerImage = docker.build whisper:latest
+                    dockerImage = docker.build 'whisper:latest'
                 }
             }
         }
