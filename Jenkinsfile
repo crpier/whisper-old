@@ -28,7 +28,6 @@ pipeline {
             }
             steps {
                 script {
-                    sleep 100
                     dockerImage = docker.build 'whisper:latest'
                 }
             }
