@@ -23,9 +23,11 @@ pipeline {
             }
         }
         stage('Build') {
-            agent any
+            agent { 
+                label 'code'
+            }
             steps {
-                node{
+                script {
                     dockerImage = docker.build 'whisper:latest'
                 }
             }
@@ -38,5 +40,5 @@ pipeline {
                 echo 'Testing...'
             }
         }
-    }
+   }
 }
