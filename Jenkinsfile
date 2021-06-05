@@ -37,8 +37,7 @@ pipeline {
             }
             steps {
                 script {
-                    sleep 100
-                    dockerImage = docker.build 'tiannaru/whisper:${get_tag(env.BRANCH_NAME)}'
+                    dockerImage = docker.build "tiannaru/whisper:${get_tag(env.BRANCH_NAME)}"
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
                         dockerImage.push()
                     }
