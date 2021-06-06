@@ -1,3 +1,12 @@
+def get_tag(String branch_name) {
+    if (branch_name == 'main') {
+        tag=latest
+    } else {
+        tag=staging
+    }
+    return tag
+}
+
 pipeline {
    agent none
    stages {
@@ -28,7 +37,7 @@ pipeline {
             }
             steps {
                 script {
-                    dockerImage = docker.build 'tiannaru/whisper:latest'
+                    dockerImage = docker.build "tiannaru/whisper:${env.BRANCH_NAME}"
                     docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
                         dockerImage.push()
                     }
@@ -37,6 +46,7 @@ pipeline {
         }
         stage('Test') {
             agent { 
+                // TODO create testing image
                 label 'code'
             }
             steps {
