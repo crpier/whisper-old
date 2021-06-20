@@ -37,9 +37,10 @@ pipeline {
             }
             steps {
                 script {
-                    dockerImage = docker.build "tiannaru/whisper:${env.BRANCH_NAME}"
-                    docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
-                        dockerImage.push()
+                    // dockerImage = docker.build "tiannaru/whisper:${env.BRANCH_NAME}"
+                    // docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+                    //     dockerImage.push()
+                    echo "lgtm"
                     }
                 }
             }
