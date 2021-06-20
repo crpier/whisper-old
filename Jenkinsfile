@@ -12,44 +12,45 @@ pipeline {
    stages {
        stage('CI') {
            agent { 
-               label 'code'
+               label 'python-ci'
            }
            stages {
                stage('CI: Checkout') {
-                  steps {
-                      checkout scm
-                  }
+                   steps {
+                       checkout scm
+                   }
                }
                stage('CI: Linting') {
                    steps {
                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                            sh "pylint --fail-under=4 src"
-                           sh "flake8 src"
-                           sh "pydocstyle src"
+                               sh "flake8 src"
+                               sh "pydocstyle src"
                        }
                    }
                }
-               stage('Test') {
-                   agent { 
-                       // TODO create testing image
-                       label 'code'
-                   }
+               stage('CI: Unit Test') {
                    steps {
                        echo 'Testing...'
                    }
                }
-               stage('CI: Build') {
-                   steps {
-                       script {
-                           // dockerImage = docker.build "tiannaru/whisper:${env.BRANCH_NAME}"
-                           // docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
-                           //     dockerImage.push()
-                           // }
-                           echo "lgtm"
+           }
+       }
+       stage('CD') {
+           agent {
+               label 'cd'
+           }
+           stage('CD: Build') {
+               steps {
+                   script {
+                       dockerImage = docker.build "tiannaru/whisper:${env.BRANCH_NAME}"
+                       docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+                           dockerImage.push()
                        }
+                       echo "lgtm"
                    }
                }
            }
        }
-    }
+   }
 }
