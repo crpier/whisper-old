@@ -10,49 +10,46 @@ def get_tag(String branch_name) {
 pipeline {
    agent none
    stages {
-        stage('Code analysis') {
-            agent { 
-                label 'code'
-            }
-            stages {
-                stage('Code analysis: checkout') {
+       stage('CI') {
+           agent { 
+               label 'code'
+           }
+           stages {
+               stage('CI: Checkout') {
+                  steps {
+                      checkout scm
+                  }
+               }
+               stage('CI: Linting') {
                    steps {
-                       checkout scm
+                       catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+                           sh "pylint --fail-under=4 src"
+                           sh "flake8 src"
+                           sh "pydocstyle src"
+                       }
                    }
-                }
-                stage('Code analysis: check') {
-                    steps {
-                        catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
-                            sh "pylint --fail-under=4 src"
-                            sh "flake8 src"
-                            sh "pydocstyle src"
-                        }
-                    }
-                }
-            }
-        }
-        stage('Build') {
-            agent { 
-                label 'code'
-            }
-            steps {
-                script {
-                    // dockerImage = docker.build "tiannaru/whisper:${env.BRANCH_NAME}"
-                    // docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
-                    //     dockerImage.push()
-                    // }
-                    echo "lgtm"
-                }
-            }
-        }
-        stage('Test') {
-            agent { 
-                // TODO create testing image
-                label 'code'
-            }
-            steps {
-                echo 'Testing...'
-            }
-        }
-   }
+               }
+               stage('Test') {
+                   agent { 
+                       // TODO create testing image
+                       label 'code'
+                   }
+                   steps {
+                       echo 'Testing...'
+                   }
+               }
+               stage('CI: Build') {
+                   steps {
+                       script {
+                           // dockerImage = docker.build "tiannaru/whisper:${env.BRANCH_NAME}"
+                           // docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+                           //     dockerImage.push()
+                           // }
+                           echo "lgtm"
+                       }
+                   }
+               }
+           }
+       }
+    }
 }
