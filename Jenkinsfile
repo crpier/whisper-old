@@ -12,7 +12,7 @@ pipeline {
    stages {
        stage('CI') {
            agent { 
-               label 'python-ci'
+               label 'ci-python'
            }
            stages {
                stage('CI: Checkout') {
@@ -40,14 +40,16 @@ pipeline {
            agent {
                label 'cd'
            }
-           stage('CD: Build') {
-               steps {
-                   script {
-                       dockerImage = docker.build "tiannaru/whisper:${env.BRANCH_NAME}"
-                       docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
-                           dockerImage.push()
+           stages {
+               stage('CD: Build') {
+                   steps {
+                       script {
+                           dockerImage = docker.build "tiannaru/whisper:${env.BRANCH_NAME}"
+                           docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
+                               dockerImage.push()
+                           }
+                           echo "lgtm"
                        }
-                       echo "lgtm"
                    }
                }
            }
