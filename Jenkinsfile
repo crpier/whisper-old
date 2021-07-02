@@ -54,7 +54,7 @@ pipeline {
                            // docker.withRegistry('https://registry.hub.docker.com', 'dockerHub') {
                            //     dockerImage.push()
                            // }
-                           echo 'lgtm'
+                           echo 'Looks good for now'
                        }
                    }
                }
